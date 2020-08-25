@@ -7,6 +7,7 @@ import {
 import WebNavbar from './layout/webnavbar'
 import LoginView from './views/login'
 import HomeView from './views/home'
+import RegisterView from './views/register'
 
 const Router = () => {
   return (
@@ -15,6 +16,7 @@ const Router = () => {
       <Switch>
         <Route exact path="/" component={HomeView} />
         <Route path="/login" component={LoginView} />
+        <Route path="/register" component={RegisterView} />
       </Switch>
     </BrowserRouter>
   )

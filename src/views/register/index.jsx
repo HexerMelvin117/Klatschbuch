@@ -1,9 +1,9 @@
 import React from 'react'
-import LoginForm from './LoginForm'
+import RegisterForm from './RegisterForm'
 import { Grid, Typography, Paper } from '@material-ui/core'
-import './Login.css'
+import "./Register.css"
 
-const LoginView = () => {
+const RegisterView = () => {
   return (
     <div>
       <Grid 
@@ -15,9 +15,9 @@ const LoginView = () => {
 			>
 				<Grid item className="mainlogin" md={4} style={{margin: 60}}>
 					<Paper style={{padding: 50}} elevation={5}>
-						<Typography variant="h5">Login</Typography>
+						<Typography variant="h5">Register</Typography>
 						<br />
-						<LoginForm />
+						<RegisterForm />
 					</Paper>	
 				</Grid>
 			</Grid>
@@ -25,4 +25,4 @@ const LoginView = () => {
   )
 }
 
-export default LoginView
+export default RegisterView

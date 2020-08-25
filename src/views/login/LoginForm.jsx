@@ -3,6 +3,8 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { Button } from '@material-ui/core'
 import MuiText from '../../components/formcontrollers/MuiText'
+import app from '../../config/fire'
+import { useHistory } from 'react-router-dom'
 
 const initialValues = {
   username: "",
@@ -16,11 +18,24 @@ const loginSchema = Yup.object().shape({
     .required("Required")
 })
 
-const handleSubmit = () => {
-  console.log("sup dude")
+const handleSubmit = (values) => {
+  try {
+    let { username, password } = values
+    app
+      .auth()
+      .signInWithEmailAndPassword(username, password)
+  } catch (error) {
+    console.log(error)
+  }
+  
 }
 
 const LoginForm = () => {
+  const history = useHistory()
+  const handleToRegister = () => {
+    history.push('/register')
+  }
+  
   return(
     <Formik
       initialValues={initialValues}
@@ -32,7 +47,7 @@ const LoginForm = () => {
             <Form>
               <MuiText name="username" label="Username" required={true} variant="outlined" />
               <br></br>
-              <MuiText name="password" label="Password" required={true} variant="outlined" />
+              <MuiText name="password" label="Password" type="password" required={true} variant="outlined" />
               <br></br>
               <Button
                 variant="contained"
@@ -40,6 +55,13 @@ const LoginForm = () => {
                 type="submit"
               >
                 Log in
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleToRegister}
+              >
+                Register
               </Button>
             </Form>
           )
