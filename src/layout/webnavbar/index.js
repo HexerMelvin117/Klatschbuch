@@ -4,9 +4,17 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Button
+  Button,
+  Badge,
+  IconButton,
+  Menu,
+  MenuItem
 } from '@material-ui/core'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import app from '../../config/fire'
+import { logOut } from '../../actions/authActions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,6 +29,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const WebNavbar = () => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleLogout = () => {
+    app.auth().signOut()
+    dispatch(logOut())
+    handleClose()
+  }
+
+  const user = useSelector((state) => state.authReducer)
+  const dispatch = useDispatch()
+
   const classes = useStyles();
 
   return(
@@ -33,10 +60,28 @@ const WebNavbar = () => {
           <Link to="/" style={{textDecoration:'none', color:'inherit'}}>
             <Button color="inherit">Home</Button>
           </Link>
-          <Link to="/login" style={{textDecoration:'none', color:'inherit'}}>
-            <Button color="inherit">Login</Button>
-          </Link>
+          { user.uid ? 
+            <IconButton color="inherit" onClick={handleClick}>
+              <Badge color="secondary">
+                <AccountCircleIcon />
+              </Badge>
+            </IconButton> :
+            <Link to="/login" style={{textDecoration:'none', color:'inherit'}}>
+              <Button color="inherit">Login</Button>
+            </Link>
+          } 
         </Toolbar>
+
+        {/* User menu */}
+        <Menu
+          id="auth-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleLogout}>Log out</MenuItem>
+        </Menu>
       </AppBar>
     </div>
   )

@@ -38,14 +38,15 @@ const LoginForm = () => {
           let {email, uid} = auth.user
           console.log("userinfo: ", email, uid)
           dispatch(logIn({uid, email}))
+          history.push('/')
         })
         .catch((err) => {
           const errCode = err.code
           const errMessage = err.errMessage
           if (errCode === 'auth/wrong-password') {
-            console.log("Wrong Password")
+            alert("Username or password invalid")
           } else {
-            console.log(errMessage)
+            alert(errMessage)
           }
         })
     } catch (error) {

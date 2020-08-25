@@ -8,13 +8,14 @@ import WebNavbar from './layout/webnavbar'
 import LoginView from './views/login'
 import HomeView from './views/home'
 import RegisterView from './views/register'
+import PrivateRoute from './PrivateRoute'
 
 const Router = () => {
   return (
     <BrowserRouter>
       <WebNavbar />
       <Switch>
-        <Route exact path="/" component={HomeView} />
+        <PrivateRoute exact path="/" component={HomeView} />
         <Route path="/login" component={LoginView} />
         <Route path="/register" component={RegisterView} />
       </Switch>
