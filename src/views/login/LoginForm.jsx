@@ -5,35 +5,53 @@ import { Button } from '@material-ui/core'
 import MuiText from '../../components/formcontrollers/MuiText'
 import app from '../../config/fire'
 import { useHistory } from 'react-router-dom'
-
-const initialValues = {
-  username: "",
-  password: ""
-}
-
-const loginSchema = Yup.object().shape({
-  username: Yup.string()
-    .required("Required"),
-  password: Yup.string()
-    .required("Required")
-})
-
-const handleSubmit = (values) => {
-  try {
-    let { username, password } = values
-    app
-      .auth()
-      .signInWithEmailAndPassword(username, password)
-  } catch (error) {
-    console.log(error)
-  }
-  
-}
+import { useDispatch } from 'react-redux'
+import { logIn } from '../../actions/authActions'
 
 const LoginForm = () => {
   const history = useHistory()
+  const dispatch = useDispatch()
+
   const handleToRegister = () => {
     history.push('/register')
+  }
+
+  const initialValues = {
+    username: "",
+    password: ""
+  }
+  
+  const loginSchema = Yup.object().shape({
+    username: Yup.string()
+      .required("Required"),
+    password: Yup.string()
+      .required("Required")
+  })
+  
+  const handleSubmit = (values) => {
+    try {
+      let { username, password } = values
+      app
+        .auth()
+        .signInWithEmailAndPassword(username, password)
+        .then(auth => {
+          let {email, uid} = auth.user
+          console.log("userinfo: ", email, uid)
+          dispatch(logIn({uid, email}))
+        })
+        .catch((err) => {
+          const errCode = err.code
+          const errMessage = err.errMessage
+          if (errCode === 'auth/wrong-password') {
+            console.log("Wrong Password")
+          } else {
+            console.log(errMessage)
+          }
+        })
+    } catch (error) {
+      console.error(error)
+    }
+    
   }
   
   return(
