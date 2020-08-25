@@ -1,8 +1,8 @@
 import { LOG_IN, LOG_OUT } from '../actions/constants'
 
 const initialState = {
-  userid: "",
-  name: ""
+  uid: "",
+  email: ""
 }
 
 export const authReducer = (state = initialState, action) =>  {
@@ -10,9 +10,9 @@ export const authReducer = (state = initialState, action) =>  {
 
   switch (action.type) {
     case LOG_IN:
-      return {...state, userid: userInfo.id, name: userInfo.name }
+      return {...state, uid: userInfo.uid, email: userInfo.email }
     case LOG_OUT:
-      return {...state, userid: "", name: "" }
+      return {...state, uid: "", email: "" }
     default:
       return state
   }
