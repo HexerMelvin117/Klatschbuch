@@ -5,17 +5,12 @@ import {
   Button
 } from '@material-ui/core'
 import { RecordVoiceOver } from '@material-ui/icons'
-import { makeStyles } from "@material-ui/core/styles"
-
-const useStyles = makeStyles ({
-  notchedOutline: {
-    borderWidth: "1px",
-    borderColor: "yellow !important"
-  }
-});
+import app from '../../config/fire'
 
 const PostCreationText = () => {
-  const classes = useStyles()
+  const HandleClick = () => {
+    console.log(app.auth().currentUser)
+  }
   
   return (
     <div>
@@ -27,12 +22,10 @@ const PostCreationText = () => {
           <TextField 
             id="input-with-icon-grid" 
             label="Write your Gossip"
-            InputProps={{classes: classes.notchedOutline}} 
-            multiLine="true"
           />
         </Grid>
         <Grid item>
-          <Button variant="contained">Post Gossip</Button>
+          <Button variant="contained" onClick={HandleClick}>Post Gossip</Button>
         </Grid>
       </Grid>
     </div>

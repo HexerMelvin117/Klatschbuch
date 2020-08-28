@@ -13,7 +13,7 @@ const HomeView = () => {
         <Grid item md={6}>
           <Grid container justify="center">
             <Paper 
-              style={{padding: 25, backgroundColor: "#37474f", color: "#e0e0e0"}} 
+              style={{padding: 25, backgroundColor: "#37474f", color: "#e0e0e0", margin: 20}} 
               elevation={5}
             >
               <PostCreationText />

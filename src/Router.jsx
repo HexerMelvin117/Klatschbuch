@@ -16,7 +16,7 @@ const Router = () => {
       <WebNavbar />
       <Switch>
         {/* <PrivateRoute exact path="/" component={HomeView} /> */}
-        <Route path="/" component={HomeView} />
+        <Route exact path="/" component={HomeView} />
         <Route path="/login" component={LoginView} />
         <Route path="/register" component={RegisterView} />
       </Switch>
