@@ -15,7 +15,8 @@ const Router = () => {
     <BrowserRouter>
       <WebNavbar />
       <Switch>
-        <PrivateRoute exact path="/" component={HomeView} />
+        {/* <PrivateRoute exact path="/" component={HomeView} /> */}
+        <Route path="/" component={HomeView} />
         <Route path="/login" component={LoginView} />
         <Route path="/register" component={RegisterView} />
       </Switch>

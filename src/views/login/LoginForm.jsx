@@ -52,7 +52,6 @@ const LoginForm = () => {
     } catch (error) {
       console.error(error)
     }
-    
   }
   
   return(
