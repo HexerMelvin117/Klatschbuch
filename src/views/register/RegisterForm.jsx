@@ -27,19 +27,33 @@ const registerSchema = Yup.object().shape({
     .required("required"),
 })
 
-const handleSubmit = (values) => {
-  try {
-    const { email, password } = values
-    app
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-  } catch (error) {
-    alert(error)
-  }
-}
-
 const RegisterForm = () => {
+  const [registerBtnDisable, setRegisterBtnDisable] = React.useState(false)
   const history = useHistory()
+
+  const handleSubmit = (values) => {
+    try {
+      const { email, password, phone, firstName, lastName } = values
+      setRegisterBtnDisable(true)
+      app
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(userInfo => {
+          app
+            .firestore()
+            .doc(`/users/${userInfo.user.uid}`)
+            .set({firstName, lastName, phone})
+          history.push('/login')
+        })
+        .catch(error => {
+          alert(error)
+        })
+      setRegisterBtnDisable(false)
+    } catch (error) {
+      alert(error)
+    }
+  }
+
   const handleBackToLogin = () => {
     history.push('/login')
   }
@@ -67,6 +81,7 @@ const RegisterForm = () => {
                 variant="contained"
                 color="primary"
                 type="submit"
+                disabled={registerBtnDisable}
               >
                 Register
               </Button>
