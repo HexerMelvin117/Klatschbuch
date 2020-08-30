@@ -7,6 +7,7 @@ import app from '../../config/fire'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { logIn } from '../../actions/authActions'
+import moment from 'moment'
 
 const LoginForm = () => {
   const [loginBtnDisable, setLoginBtnDisable] = React.useState(false)
@@ -16,6 +17,21 @@ const LoginForm = () => {
 
   const handleToRegister = () => {
     history.push('/register')
+  }
+
+  const updateLastLogin = async (uid) => {
+    try{
+      const thisMoment = moment().format()
+      const logginInfo = { lastLogin: thisMoment }
+      await app
+        .firestore()
+        .collection('users')
+        .doc(uid)
+        .set(logginInfo, {merge: true})
+    } catch(error) {
+      alert(error)
+    }
+    
   }
 
   const initialValues = {
@@ -40,6 +56,7 @@ const LoginForm = () => {
         .then(auth => {
           let {email, uid} = auth.user
           dispatch(logIn({uid, email}))
+          updateLastLogin(uid)
           setLoginBtnDisable(false)
           history.push('/')
         })
