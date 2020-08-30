@@ -9,6 +9,8 @@ import { useDispatch } from 'react-redux'
 import { logIn } from '../../actions/authActions'
 
 const LoginForm = () => {
+  const [loginBtnDisable, setLoginBtnDisable] = React.useState(false)
+
   const history = useHistory()
   const dispatch = useDispatch()
 
@@ -30,17 +32,19 @@ const LoginForm = () => {
   
   const handleSubmit = (values) => {
     try {
+      setLoginBtnDisable(true)
       let { username, password } = values
       app
         .auth()
         .signInWithEmailAndPassword(username, password)
         .then(auth => {
           let {email, uid} = auth.user
-          console.log("userinfo: ", email, uid)
           dispatch(logIn({uid, email}))
+          setLoginBtnDisable(false)
           history.push('/')
         })
         .catch((err) => {
+          setLoginBtnDisable(false)
           const errCode = err.code
           const errMessage = err.errMessage
           if (errCode === 'auth/wrong-password') {
@@ -71,6 +75,7 @@ const LoginForm = () => {
                 variant="contained"
                 color="primary"
                 type="submit"
+                disabled={loginBtnDisable}
               >
                 Log in
               </Button>
