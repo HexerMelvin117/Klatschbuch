@@ -20,7 +20,7 @@ const LoginForm = () => {
   }
 
   const updateLastLogin = async (uid) => {
-    try{
+    try {
       const thisMoment = moment().format()
       const logginInfo = { lastLogin: thisMoment }
       await app
@@ -31,7 +31,6 @@ const LoginForm = () => {
     } catch(error) {
       alert(error)
     }
-    
   }
 
   const initialValues = {

@@ -6,10 +6,27 @@ import {
 } from '@material-ui/core'
 import { RecordVoiceOver } from '@material-ui/icons'
 import app from '../../config/fire'
+import { useDispatch, useSelector } from 'react-redux'
+import moment from 'moment'
 
-const PostCreationText = () => {
+const PostCreationInput = () => {
+  const dispatch = useDispatch()
+  const loggedUser = useSelector(state => state.authReducer)
+
+  // app.auth().currentUser.uid
+  const createPost = async (uid) => {
+    const thisMoment = moment().format()
+    
+
+    await app
+      .firestore()
+      .collection('posts')
+      .set()
+  }
+
   const HandleClick = () => {
-    console.log(app.auth().currentUser)
+    const currentUid = app.auth().currentUser.uid
+    currentUid ? createPost(currentUid) : alert("Not logged in")
   }
   
   return (
@@ -32,4 +49,4 @@ const PostCreationText = () => {
   )
 }
 
-export default PostCreationText
+export default PostCreationInput
