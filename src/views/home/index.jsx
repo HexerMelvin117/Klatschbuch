@@ -3,7 +3,8 @@ import {
   Grid,
   Paper
 } from '@material-ui/core'
-import PostCreationText from '../../components/postcontrollers/PostCreation'
+import PostCreationInput from '../../components/postcontrollers/PostCreation'
+import PostsList from '../../components/posts/PostsList'
 
 const HomeView = () => {
   return (
@@ -16,7 +17,8 @@ const HomeView = () => {
               style={{padding: 25, backgroundColor: "#37474f", color: "#e0e0e0", margin: 20}} 
               elevation={5}
             >
-              <PostCreationText />
+              <PostCreationInput />
+              <PostsList />
             </Paper>
           </Grid>
         </Grid>

@@ -7,13 +7,30 @@ import app from '../../config/fire'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { logIn } from '../../actions/authActions'
+import moment from 'moment'
 
 const LoginForm = () => {
+  const [loginBtnDisable, setLoginBtnDisable] = React.useState(false)
+
   const history = useHistory()
   const dispatch = useDispatch()
 
   const handleToRegister = () => {
     history.push('/register')
+  }
+
+  const updateLastLogin = async (uid) => {
+    try {
+      const thisMoment = moment().format()
+      const logginInfo = { lastLogin: thisMoment }
+      await app
+        .firestore()
+        .collection('users')
+        .doc(uid)
+        .set(logginInfo, {merge: true})
+    } catch(error) {
+      alert(error)
+    }
   }
 
   const initialValues = {
@@ -30,17 +47,20 @@ const LoginForm = () => {
   
   const handleSubmit = (values) => {
     try {
+      setLoginBtnDisable(true)
       let { username, password } = values
       app
         .auth()
         .signInWithEmailAndPassword(username, password)
         .then(auth => {
           let {email, uid} = auth.user
-          console.log("userinfo: ", email, uid)
           dispatch(logIn({uid, email}))
+          updateLastLogin(uid)
+          setLoginBtnDisable(false)
           history.push('/')
         })
         .catch((err) => {
+          setLoginBtnDisable(false)
           const errCode = err.code
           const errMessage = err.errMessage
           if (errCode === 'auth/wrong-password') {
@@ -71,6 +91,7 @@ const LoginForm = () => {
                 variant="contained"
                 color="primary"
                 type="submit"
+                disabled={loginBtnDisable}
               >
                 Log in
               </Button>

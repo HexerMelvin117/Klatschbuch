@@ -43,12 +43,13 @@ const RegisterForm = () => {
             .firestore()
             .doc(`/users/${userInfo.user.uid}`)
             .set({firstName, lastName, phone})
+          setRegisterBtnDisable(false)
           history.push('/login')
         })
         .catch(error => {
+          setRegisterBtnDisable(false)
           alert(error)
         })
-      setRegisterBtnDisable(false)
     } catch (error) {
       alert(error)
     }
